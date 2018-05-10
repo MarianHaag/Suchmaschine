@@ -1,8 +1,8 @@
 <?php
   include('config.php');
 
-  if (isset($_POST['btn-save'])){
-      $text = "I Say Yes to " . $_POST['phrase'] . "\n";
+  if (isset($_GET['btn-save'])){
+      $text = "I Say Yes to " . $_GET['phrase'] . "\n";
       // file_put_contents($filename, $text, FILE_APPEND);
       $link = mysqli_connect("localhost", "root", "", "i218_phrases_live");
       $db_query = "INSERT INTO `phrases` (`ID`, `text`, `insertdate`) VALUES (NULL, '" . $text . "', NOW());";
@@ -27,7 +27,7 @@
           <div class="jumbotron jumbotron-fluid">
           <div class="container">
             <h1 class="display-3">I say YES! to ...</h1>
-            <form method="post">
+            <form method="get">
               <select name="phrase">
                 <option value="ChickenNuggets">Chicken Nuggets</option>
                 <option value="Ketchup">Ketchup</option>

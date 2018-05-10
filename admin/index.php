@@ -1,21 +1,25 @@
 <?php
   include('../config.php');
+  
+  // connect to database
   $link = mysqli_connect("localhost", "root", "", "i218_phrases_live");
 
-  if (isset($_GET['delete'])){
-      $db_query = "DELETE FROM `phrases` WHERE `ID` = " . $_GET['delete-id'] ;
-      // echo $db_query; 
-      $delete_result = $link->query($db_query);     
-      echo $link->affected_rows; 
-  }
-  
+  if (isset($_GET['delete-id'])){
+    $db_query = "DELETE FROM `phrases` WHERE `ID` = " . $_GET['delete-id'] ;
+    $delete_result = $link->query($db_query);     
+    // The following line shows how many rows were delted... 
+    // Can be used for error handling... 
+    // echo $link->affected_rows; 
+  } 
+
+  // query database
   $result = $link->query('SELECT * FROM phrases');
 
 ?>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Delete phrase</title>
+    <title>Add phrase</title>
     <meta charset="UTF-8"></meta>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <style type="text/css">
@@ -27,7 +31,6 @@
   <body>
           <div class="jumbotron jumbotron-fluid">
           <div class="container">
-            <h1 class="display-3">DELETE</h1>
             <table>
            <?php 
               // process results
@@ -36,14 +39,13 @@
                 echo "<td>" . $row[0] . "</td>";
                 echo "<td>" . $row[1] . "</td>";
                 echo "<td>" . $row[2] . "</td>";
-                echo "<td><a href='?delete=1&delete-id=" . $row[0] . "'>delete </a></td>";
-                echo "<td><a href='phrase_edit.php?edit-id=" . $row[0] . "'> edit</td>";
+                echo "<td><a href='?delete-id=" . $row[0] . "'>delete</a></td>";
+                echo "<td><a href='phrase_edit.php?edit-id=" . $row[0] . "'>edit</a></td>";                
                 echo "</tr>";
               }
            ?>
             </table>
-
-
+          
           </div>
 
         </div>

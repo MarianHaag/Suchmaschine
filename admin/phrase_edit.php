@@ -1,24 +1,25 @@
 <?php
   include('../config.php');
   $link = mysqli_connect("localhost", "root", "", "i218_phrases_live");
+  $update_result = 0; 
+  if (isset($_GET['btn-save'])){
+    $db_query = "UPDATE `phrases` SET `text` = '" . $_GET['phrase'] . "' WHERE `ID` = " . $_GET['edit-id'] ;
+     // echo $db_query; 
+     $update_result = $link->query($db_query);  
+  }
+
   $db_query = "SELECT * FROM `phrases` WHERE `ID` = " . $_GET['edit-id'] ;
   $result = $link->query($db_query); 
   $row = mysqli_fetch_row($result); 
   $text = $row[1];
 
-  if (isset($_GET['btn-save'])){
-      $db_query = "UPDATE `phrases` SET `text` = '" . $_GET['edit-text'] . "' WHERE `ID` = " . $_GET['edit-id'] ;
-       // echo $db_query; 
-       $update_result = $link->query($db_query);     
-  }
-  
-  
+
 
 ?>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Delete phrase</title>
+    <title>Edit phrase</title>
     <meta charset="UTF-8"></meta>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <style type="text/css">
@@ -28,12 +29,19 @@
     </style>
   </head>
   <body>
+        <?php if ($update_result == 1){ ?>
+          <div class="alert alert-primary" role="alert">
+            Update Success! 
+            <a href="index.php">Back to dashboard</a>
+          </div>
+        <?php } ?>
+
           <div class="jumbotron jumbotron-fluid">
           <div class="container">
             <h1 class="display-3">EDIT</h1>
             <form>
                 <input type="hidden" name="edit-id" value="<?php echo $_GET['edit-id']?>" >
-                <input type="text" name="edit-text" value="<?php echo $text ?>"></input>
+                <input type="text" name="phrase" value="<?php echo $text ?>"></input>
                 <button type="submit" name="btn-save" value="1">Update</button>                
             </form>
 
